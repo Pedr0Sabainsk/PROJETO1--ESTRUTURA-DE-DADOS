@@ -1,73 +1,83 @@
-if (urgencia >= 4){
-    //vai para uma PILHA de emergência//
-} else {
-    //vai para uma FILA comum//
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.Scanner;
 
-if (pilha){
-    /*desempilha aquele que está no topo*/
-} else { 
-    //desenfileira//
-}
+public class Main {
+    private static Scanner scanner = new Scanner(System.in);
+    private static LinkedList<Chamado> filaComum = new LinkedList<>();
+    private static ArrayList<Chamado> pilhaEmergencia = new ArrayList<>();
+    private static ArrayList<Chamado> atendimentosAtivos = new ArrayList<>();
+    private static Historico historico = new Historico();
+    private static int proximoId = 1;
 
-public void concluiAtendimento(String concluido){
-    for (String atendimento : atendimentosAtivos){
-        System.out.println(atendimento);
-    }
-    System.out.println("Qual atendimento foi concluído?");
-    String concluido = sla.nextLine();
-    atendimentosAtivos.remove(concluido);
-    /*falta isso: 
-    d) Marcar como FINALIZADO na lista linear (ArrayList) de HISTÓRICO. Para atualizar o
-    status como FINALIZADO no histórico, realizar uma busca sequencial na estrutura
-    utilizada pelo id do chamado.*/
-}
-
-public void sai(String resposta){
-    System.out.println("Você tem certeza que quer sair?");
-    String resposta;
-    resposta = sla.nextLine();
-    if(resposta.toLowerCase().equals("sim")){
-        System.out.println("Fechando sistema.");
-        System.exit(0);
-    } else {
+    public static void main(String[] args) {
         menu();
     }
-}
 
-switch(respostaMenu){
-case(1):
-chamado();
-break;
-case(2):
-realizaAtendimento();
-break;
-case(3):
-concluiAtendimento(String concluido);
-break;
-case(4):
-mostraChamados();
-break;
-case(5):
-mostraListaAtendimentos();
-break;
-case(6):
-mostraHistoricoChamados();
-break;
-case(7):
-mostraEstatisticaEmergencia();
-break;
-case(8):
-mostraChamadosEmergencia();
-break;
-case(9):
-mostraRanking();
-break;
-case(10):
-simulaCadastro();
-break;
-case(11):
-sai(String resposta):
-break;
-default:
-System.out.println("Digite um valor válido.");
-}
+    public static void menu() {
+        int opcao;
+
+        do {
+            System.out.println();
+            System.out.println("Sistema de atendimento de Emergencia Urbana");
+            System.out.println("1. Cadastrar chamado");
+            System.out.println("2. Realizar atendimento chamado");
+            System.out.println("3. Concluir atendimento");
+            System.out.println("4. Mostrar chamados abertos");
+            System.out.println("5. Mostrar lista ativa de atendimentos");
+            System.out.println("6. Mostrar historico completo dos chamados");
+            System.out.println("7. Mostrar estatistica dos niveis de emergencia");
+            System.out.println("8. Mostrar os chamados com nivel de emergencia");
+            System.out.println("9. Mostrar Ranking de bairros");
+            System.out.println("10. Simular Cadastro de Chamado");
+            System.out.println("11. Sair");
+            System.out.print("Opcao: ");
+            opcao = lerInteiro();
+
+            switch (opcao) {
+                case 1:
+                    cadastrarChamado();
+                    break;
+                case 2:
+                    realizarAtendimentoChamado();
+                    break;
+                case 3:
+                    concluirAtendimento();
+                    break;
+                case 4:
+                case 5:
+                case 6:
+                case 7:
+                case 8:
+                case 9:
+                case 10:
+                    System.out.println("Opcao fora do escopo desta etapa.");
+                    break;
+                case 11:
+                    System.out.println("Fechando sistema.");
+                    break;
+                default:
+                    System.out.println("Digite uma opcao valida.");
+            }
+        } while (opcao != 11);
+    }
+
+    public static void cadastrarChamado() {
+        System.out.print("Bairro: ");
+        String bairro = scanner.nextLine();
+
+        System.out.print("Descricao: ");
+        String descricao = scanner.nextLine();
+
+        char nivelUrgencia = lerNivelUrgencia();
+
+        Chamado chamado = new Chamado(
+                proximoId,
+                bairro,
+                descricao,
+                nivelUrgencia,
+                Chamado.Status.ABERTO);
+
+        proximoId++;
+
+        
