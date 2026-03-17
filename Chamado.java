@@ -1,39 +1,55 @@
-import java.util.ArrayList;
+public class Chamado {
 
-public class Chamado{
+    public enum Status {
+        ABERTO,
+        EM_ATENDIMENTO,
+        FINALIZADO
+    }
 
     private int id;
     private String bairro;
     private String descricao;
-    private String nivelUrgencia;
-    private String status;
+    private char nivelUrgencia;
+    private Status status;
 
-    public Chamado (Int id, String bairro, String descricao, String nivelUrgencia, String status) {
+    public Chamado(int id, String bairro, String descricao, char nivelUrgencia, Status status) {
         this.id = id;
         this.bairro = bairro;
         this.descricao = descricao;
         this.nivelUrgencia = nivelUrgencia;
         this.status = status;
-
     }
 
-    public int getId(){
+    public int getId() {
         return id;
     }
 
-    public String getBairro(){
+    public String getBairro() {
         return bairro;
     }
 
-    public String getDescricao(){
+    public String getDescricao() {
         return descricao;
     }
 
-    public String getNivelUrgencia(){
+    public char getNivelUrgencia() {
         return nivelUrgencia;
     }
 
-    public String getStatus(){
+    public Status getStatus() {
         return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
+    }
+
+    @Override
+    public String toString() {
+        return "ID: " + id
+                + " | Bairro: " + bairro
+                + " | Descricao: " + descricao
+                + " | Nivel de urgencia: " + nivelUrgencia
+                + " | Status: " + status;
     }
 }
