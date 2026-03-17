@@ -2,13 +2,13 @@ import java.util.ArrayList;
 
 public class Chamado{
 
-    private Int id;
-    private Char bairro;
-    private Char descricao;
-    private Char nivelUrgencia;
-    private Enum status;
+    private int id;
+    private String bairro;
+    private String descricao;
+    private String nivelUrgencia;
+    private String status;
 
-    public Chamado (Int id, Char bairro, Char descricao,Char nivelUrgencia, Enum status) {
+    public Chamado (Int id, String bairro, String descricao, String nivelUrgencia, String status) {
         this.id = id;
         this.bairro = bairro;
         this.descricao = descricao;
@@ -17,26 +17,23 @@ public class Chamado{
 
     }
 
-    public Int getId(){
+    public int getId(){
         return id;
     }
 
-    public Char getBairro(){
+    public String getBairro(){
         return bairro;
     }
 
-    public Char getDescricao(){
+    public String getDescricao(){
         return descricao;
     }
 
-    public Char getNivelUrgencia(){
+    public String getNivelUrgencia(){
         return nivelUrgencia;
     }
 
-    public Enum getStatus(){
+    public String getStatus(){
         return status;
     }
-
-
-
 }

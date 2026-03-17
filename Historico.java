@@ -3,7 +3,7 @@ import java.util.ArrayList;
 public class Historico{
     private ArrayList<Chamado> chamado;
 
-    public Pedido(){
+    public Historico(){
         this.Cadastro = new ArrayList<>();
     }
 
