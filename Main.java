@@ -63,7 +63,7 @@ public class Main {
     }
 
     public static void cadastrarChamado() {
-        System.out.print("Bairro: ");
+        System.out.println("Bairro: ");
         String bairro = scanner.nextLine();
 
         System.out.print("Descricao: ");
@@ -78,6 +78,42 @@ public class Main {
                 nivelUrgencia,
                 Chamado.Status.ABERTO);
 
-        proximoId++;
+        historico.registrarChamado(chamado);
 
-        
+        if (nivelUrgencia >= '4'){
+            pilhaEmergencia.add(chamado);
+        } else {
+            filaComum.add(chamado);
+        }
+
+        proximoId++;
+    }
+
+    public static void realizarAtendimentoChamado(){
+        if (!pilhaEmergencia.isEmpty()){
+            Chamado chamado = pilhaEmergencia.top();
+            pilhaEmergencia.pop();
+        }
+        if (!filaComum.isEmpty()){
+            Chamado chamado = filaComum.top();
+            System.out.println("Não há chamados.");
+            return;
+        }
+    }
+
+    public static concluirAtendimento(){
+        if (!atendimentosAtivos.isEmpty()){
+            System.out.println("Lista de atendimentos vazia.");
+        }
+        for (){
+
+        }
+        System.out.println("Digite o índice do atendimento que deseja concluir: ");
+        int indice = scanner.nextInt();
+        if (indice > atendimentosAtivos.length|| indice < atendimentosAtivos.length){
+            return;
+        } else {
+            atendimentosAtivos.remove(indice);
+        }
+    }
+}
