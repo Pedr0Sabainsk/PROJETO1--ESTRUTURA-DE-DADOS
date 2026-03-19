@@ -90,32 +90,34 @@ public class Main {
     }
 
     public static void realizarAtendimentoChamado(){
+        Chamado chamado;
         if (!pilhaEmergencia.isEmpty()){
-            Chamado chamado = pilhaEmergencia.top();
-            pilhaEmergencia.remove(pilhaEmergencia.size() - 1);
+            chamado = pilhaEmergencia.remove(pilhaEmergencia.size() - 1);
         } else if (!filaComum.isEmpty()){
-            Chamado chamado = filaComum.top();
+            chamado = filaComum.removeFirst();
+        } else {
             System.out.println("Não há chamados.");
             return;
         }
         atendimentosAtivos.add(chamado);
-        historico.atualizarStatusPorId(proximoId, null);
+        historico.atualizarStatusPorId(chamado.getId(), Chamado.Status.EM_ATENDIMENTO);
     }
 
     public static void concluirAtendimento(){
         if (atendimentosAtivos.isEmpty()){
             System.out.println("Lista de atendimentos vazia.");
         }
-        for (Chamado chamado : atendimentosAtivos){
-            System.out.println(chamado);
+        for (int i = 0; i < atendimentosAtivos.size(); i++){
+            System.out.println(atendimentosAtivos.get(i));
         }
         System.out.println("Digite o índice do atendimento que deseja concluir: ");
         int indice = lerInteiro();
+        Chamado chamado;
 
-        if (indice > atendimentosAtivos.size() || indice < atendimentosAtivos.size()){
+        if (indice < 0 || indice >= atendimentosAtivos.size()){
             return;
         } else {
-            Chamado chamado = atendimentosAtivos.remove(indice);
+            chamado = atendimentosAtivos.remove(indice);
         }
         historico.atualizarStatusPorId(chamado.getId(), Chamado.Status.FINALIZADO);
     }
@@ -124,7 +126,7 @@ public class Main {
         do {
             System.out.println("Nível de urgência (1-5): ");
             char nivelUrgencia = scanner.nextLine().charAt(0);
-            if (nivelUrgencia >= '1' && nivel <= '5'){
+            if (nivelUrgencia >= '1' && nivelUrgencia <= '5'){
                 return nivelUrgencia;
             } else {
                 System.out.println("Número inválido. Digite novamente: ");
