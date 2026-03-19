@@ -92,28 +92,52 @@ public class Main {
     public static void realizarAtendimentoChamado(){
         if (!pilhaEmergencia.isEmpty()){
             Chamado chamado = pilhaEmergencia.top();
-            pilhaEmergencia.pop();
-        }
-        if (!filaComum.isEmpty()){
+            pilhaEmergencia.remove(pilhaEmergencia.size() - 1);
+        } else if (!filaComum.isEmpty()){
             Chamado chamado = filaComum.top();
             System.out.println("Não há chamados.");
             return;
         }
+        atendimentosAtivos.add(chamado);
+        historico.atualizarStatusPorId(proximoId, null);
     }
 
-    public static concluirAtendimento(){
-        if (!atendimentosAtivos.isEmpty()){
+    public static void concluirAtendimento(){
+        if (atendimentosAtivos.isEmpty()){
             System.out.println("Lista de atendimentos vazia.");
         }
-        for (){
-
+        for (Chamado chamado : atendimentosAtivos){
+            System.out.println(chamado);
         }
         System.out.println("Digite o índice do atendimento que deseja concluir: ");
-        int indice = scanner.nextInt();
-        if (indice > atendimentosAtivos.length|| indice < atendimentosAtivos.length){
+        int indice = lerInteiro();
+
+        if (indice > atendimentosAtivos.size() || indice < atendimentosAtivos.size()){
             return;
         } else {
-            atendimentosAtivos.remove(indice);
+            Chamado chamado = atendimentosAtivos.remove(indice);
+        }
+        historico.atualizarStatusPorId(chamado.getId(), Chamado.Status.FINALIZADO);
+    }
+
+    public static char lerNivelUrgencia (){
+        do {
+            System.out.println("Nível de urgência (1-5): ");
+            char nivelUrgencia = scanner.nextLine().charAt(0);
+            if (nivelUrgencia >= '1' && nivel <= '5'){
+                return nivelUrgencia;
+            } else {
+                System.out.println("Número inválido. Digite novamente: ");
+            }
+        } while (true);
+    }
+
+    public static int converteInteiro(char nivelUrgencia){
+        try {
+            int nivelInt = Integer.parseInt(nivelUrgencia);
+            return nivelInt;
+        } catch (NumberFormatException e){
+            System.out.println("Erro. Digite um número. ");
         }
     }
 }
