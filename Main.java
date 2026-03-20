@@ -1,20 +1,10 @@
-import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.Scanner;
 
 public class Main {
-    private static Scanner scanner = new Scanner(System.in);
-    private static LinkedList<Chamado> filaComum = new LinkedList<>();
-    private static ArrayList<Chamado> pilhaEmergencia = new ArrayList<>();
-    private static ArrayList<Chamado> atendimentosAtivos = new ArrayList<>();
-    private static Historico historico = new Historico();
-    private static int proximoId = 1;
+    private static final Scanner scanner = new Scanner(System.in);
 
     public static void main(String[] args) {
-        menu();
-    }
-
-    public static void menu() {
+        CentralAtendimento central = new CentralAtendimento();
         int opcao;
 
         do {
@@ -32,17 +22,51 @@ public class Main {
             System.out.println("10. Simular Cadastro de Chamado");
             System.out.println("11. Sair");
             System.out.print("Opcao: ");
-            opcao = lerInteiro();
+            String entradaOpcao = scanner.nextLine();
+            try {
+                opcao = Integer.parseInt(entradaOpcao);
+            } catch (NumberFormatException e) {
+                opcao = -1;
+            }
 
             switch (opcao) {
                 case 1:
-                    cadastrarChamado();
+                    System.out.print("Bairro: ");
+                    String bairro = scanner.nextLine();
+
+                    System.out.print("Descricao: ");
+                    String descricao = scanner.nextLine();
+
+                    System.out.print("Nivel de urgencia (1-5): ");
+                    String entradaNivel = scanner.nextLine();
+                    int nivelUrgencia;
+
+                    try {
+                        nivelUrgencia = Integer.parseInt(entradaNivel);
+                    } catch (NumberFormatException e) {
+                        System.out.println("Nivel de urgencia invalido. Informe um numero entre 1 e 5.");
+                        break;
+                    }
+
+                    central.cadastrarChamado(bairro, descricao, nivelUrgencia);
                     break;
                 case 2:
-                    realizarAtendimentoChamado();
+                    central.realizarAtendimento();
                     break;
                 case 3:
-                    concluirAtendimento();
+                    central.mostrarAtendimentosAtivos();
+                    System.out.print("Digite o indice do atendimento que deseja concluir: ");
+                    String entradaIndice = scanner.nextLine();
+                    int indiceEscolhido;
+
+                    try {
+                        indiceEscolhido = Integer.parseInt(entradaIndice);
+                    } catch (NumberFormatException e) {
+                        System.out.println("Indice invalido.");
+                        break;
+                    }
+
+                    central.concluirAtendimento(indiceEscolhido);
                     break;
                 case 4:
                 case 5:
@@ -51,7 +75,7 @@ public class Main {
                 case 8:
                 case 9:
                 case 10:
-                    System.out.println("Opcao fora do escopo desta etapa.");
+                    System.out.println("Em desenvolvimento");
                     break;
                 case 11:
                     System.out.println("Fechando sistema.");
@@ -60,86 +84,5 @@ public class Main {
                     System.out.println("Digite uma opcao valida.");
             }
         } while (opcao != 11);
-    }
-
-    public static void cadastrarChamado() {
-        System.out.println("Bairro: ");
-        String bairro = scanner.nextLine();
-
-        System.out.print("Descricao: ");
-        String descricao = scanner.nextLine();
-
-        char nivelUrgencia = lerNivelUrgencia();
-
-        Chamado chamado = new Chamado(
-                proximoId,
-                bairro,
-                descricao,
-                nivelUrgencia,
-                Chamado.Status.ABERTO);
-
-        historico.registrarChamado(chamado);
-
-        if (nivelUrgencia >= '4'){
-            pilhaEmergencia.add(chamado);
-        } else {
-            filaComum.add(chamado);
-        }
-
-        proximoId++;
-    }
-
-    public static void realizarAtendimentoChamado(){
-        Chamado chamado;
-        if (!pilhaEmergencia.isEmpty()){
-            chamado = pilhaEmergencia.remove(pilhaEmergencia.size() - 1);
-        } else if (!filaComum.isEmpty()){
-            chamado = filaComum.removeFirst();
-        } else {
-            System.out.println("Não há chamados.");
-            return;
-        }
-        atendimentosAtivos.add(chamado);
-        historico.atualizarStatusPorId(chamado.getId(), Chamado.Status.EM_ATENDIMENTO);
-    }
-
-    public static void concluirAtendimento(){
-        if (atendimentosAtivos.isEmpty()){
-            System.out.println("Lista de atendimentos vazia.");
-        }
-        for (int i = 0; i < atendimentosAtivos.size(); i++){
-            System.out.println(atendimentosAtivos.get(i));
-        }
-        System.out.println("Digite o índice do atendimento que deseja concluir: ");
-        int indice = lerInteiro();
-        Chamado chamado;
-
-        if (indice < 0 || indice >= atendimentosAtivos.size()){
-            return;
-        } else {
-            chamado = atendimentosAtivos.remove(indice);
-        }
-        historico.atualizarStatusPorId(chamado.getId(), Chamado.Status.FINALIZADO);
-    }
-
-    public static char lerNivelUrgencia (){
-        do {
-            System.out.println("Nível de urgência (1-5): ");
-            char nivelUrgencia = scanner.nextLine().charAt(0);
-            if (nivelUrgencia >= '1' && nivelUrgencia <= '5'){
-                return nivelUrgencia;
-            } else {
-                System.out.println("Número inválido. Digite novamente: ");
-            }
-        } while (true);
-    }
-
-    public static int converteInteiro(char nivelUrgencia){
-        try {
-            int nivelInt = Integer.parseInt(nivelUrgencia);
-            return nivelInt;
-        } catch (NumberFormatException e){
-            System.out.println("Erro. Digite um número. ");
-        }
     }
 }
