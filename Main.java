@@ -75,7 +75,7 @@ public class Main {
                 case 8:
                 case 9:
                 case 10:
-                    System.out.println("Em desenvolvimento");
+                    central.simularCadastro();
                     break;
                 case 11:
                     System.out.println("Fechando sistema.");

@@ -85,4 +85,21 @@ public class CentralAtendimento {
             System.out.println("Indice " + i + " -> " + atendimentosAtivos.get(i));
         }
     }
+    
+    public void simularCadastro() {
+        System.out.println("Simulação de cadastro.");
+        cadastrarChamado("Tatuapé", "Comum", '2');
+        cadastrarChamado("Pinheiros", "Emergência", '5');
+        cadastrarChamado("Bela Vista", "Comum", '3');
+        cadastrarChamado("Tucuruvi", "Emergência", '4');
+        cadastrarChamado("Tucuruvi", "Comum", '1');
+        cadastrarChamado("Butantã", "Emergência", '5');
+        cadastrarChamado("Mooca", "Emergência", '5');
+        cadastrarChamado("Higienópolis", "Emergência", '4');
+        cadastrarChamado("Higienópolis", "Comum", '2');
+        cadastrarChamado("Higienópolis", "Emergência", '4');
+
+        System.out.println("Simulação concluída.");
+    }
+
 }
