@@ -69,8 +69,11 @@ public class Main {
                     central.concluirAtendimento(indiceEscolhido);
                     break;
                 case 4:
-                case 5:
                     System.out.println("\nChamados Abertos ");
+                    central.ChamadosAbertos();
+                    break;
+                case 5:
+                    System.out.println("\nChamados Ativos ");
                     central.mostrarAtendimentosAtivos();
                     break;
                 case 6:

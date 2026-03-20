@@ -15,7 +15,7 @@ public class CentralAtendimento {
         this.historico = new Historico();
         this.proximoId = 1;
     }
-
+//Opção 1
     public void cadastrarChamado(String bairro, String descricao, int nivelUrgencia) {
         if (nivelUrgencia < 1 || nivelUrgencia > 5) {
             System.out.println("Nivel de urgencia invalido. Informe um valor entre 1 e 5.");
@@ -42,6 +42,8 @@ public class CentralAtendimento {
         System.out.println("Chamado cadastrado com sucesso.");
     }
 
+
+    //Opção 2
     public void realizarAtendimento() {
         Chamado chamado;
 
@@ -59,6 +61,8 @@ public class CentralAtendimento {
         System.out.println("Atendimento iniciado para o chamado ID " + chamado.getId() + ".");
     }
 
+
+//Opção 3
     public void concluirAtendimento(int indiceEscolhido) {
         if (atendimentosAtivos.isEmpty()) {
             System.out.println("Lista de atendimentos ativa vazia.");
@@ -75,6 +79,34 @@ public class CentralAtendimento {
         System.out.println("Atendimento concluido para o chamado ID " + chamado.getId() + ".");
     }
 
+    //Opção 4
+    public void chamadosAbertos() {
+    if (filaComum.isEmpty() && pilhaEmergencia.isEmpty()) {
+        System.out.println("Não temos chamados abertos.");
+        return;
+    }
+
+    System.out.println("Chamados de Emergencia Abertos");
+    if (pilhaEmergencia.isEmpty()) {
+        System.out.println("Nenhum chamado de emergencia pendente.");
+    } else {
+        for (int i = 0; i < pilhaEmergencia.size(); i++) {
+            System.out.println("Emergencia " + i + ": " + pilhaEmergencia.get(i));
+        }
+    }
+
+    System.out.println("\nChamados Comuns Abertos");
+    if (filaComum.isEmpty()) {
+        System.out.println("Nenhum chamado comum pendente.");
+    } else {
+        for (int i = 0; i < filaComum.size(); i++) {
+            System.out.println("Comum " + i + ": " + filaComum.get(i));
+        }
+    }
+}
+
+
+//Opção 5
     public void mostrarAtendimentosAtivos() {
         if (atendimentosAtivos.isEmpty()) {
             System.out.println("Lista de atendimentos ativa vazia.");
@@ -85,7 +117,9 @@ public class CentralAtendimento {
             System.out.println("Indice " + i + " -> " + atendimentosAtivos.get(i));
         }
     }
+
     
+//Opção 10
     public void simularCadastro() {
         System.out.println("Simulação de cadastro.");
         cadastrarChamado("Tatuapé", "Comum", '2');
