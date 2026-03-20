@@ -70,6 +70,9 @@ public class Main {
                     break;
                 case 4:
                 case 5:
+                    System.out.println("\nChamados Abertos ");
+                    central.mostrarAtendimentosAtivos();
+                    break;
                 case 6:
                 case 7:
                 case 8:
