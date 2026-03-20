@@ -77,6 +77,9 @@ public class Main {
                     central.mostrarAtendimentosAtivos();
                     break;
                 case 6:
+                    System.out.println("\nHistorico Completo dos Chamados ");
+                    central.historicoCompleto();
+                    break;
                 case 7:
                 case 8:
                 case 9:

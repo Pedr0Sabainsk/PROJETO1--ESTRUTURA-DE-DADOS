@@ -15,6 +15,7 @@ public class CentralAtendimento {
         this.historico = new Historico();
         this.proximoId = 1;
     }
+
 //Opção 1
     public void cadastrarChamado(String bairro, String descricao, int nivelUrgencia) {
         if (nivelUrgencia < 1 || nivelUrgencia > 5) {
@@ -117,8 +118,21 @@ public class CentralAtendimento {
             System.out.println("Indice " + i + " -> " + atendimentosAtivos.get(i));
         }
     }
+//Opção 6
 
-    
+    public void historicoCompleto() {
+        ArrayList<Chamado> chamados = historico.getChamados();
+        if (chamados.isEmpty()) {
+            System.out.println("Historico de chamados vazio.");
+            return;
+        }
+
+        for (int i = 0; i < chamados.size(); i++) {
+            System.out.println("Chamado " + i + ": " + chamados.get(i));
+        }
+    }
+
+
 //Opção 10
     public void simularCadastro() {
         System.out.println("Simulação de cadastro.");
