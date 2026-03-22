@@ -81,7 +81,22 @@ public class Main {
                     central.historicoCompleto();
                     break;
                 case 7:
+                    central.mostrarEstatisticaNiveis();
+                    break;
                 case 8:
+                    System.out.print("Digite o nivel de emergencia que deseja buscar (1-5): ");
+                    String entradaBusca = scanner.nextLine();
+                    try {
+                        int nivelBusca = Integer.parseInt(entradaBusca);
+                        if (nivelBusca < 1 || nivelBusca > 5) {
+                            System.out.println("Nivel invalido.");
+                        } else {
+                            central.mostrarChamadosPorNivel(nivelBusca);
+                        }
+                    } catch (NumberFormatException e) {
+                        System.out.println("Nivel invalido. Digite um numero.");
+                    }
+                    break;
                 case 9:
                 case 10:
                     central.simularCadastro();

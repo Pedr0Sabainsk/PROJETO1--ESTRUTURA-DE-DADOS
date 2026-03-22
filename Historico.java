@@ -4,7 +4,7 @@ public class Historico {
     private ArrayList<Chamado> chamados;
 
     public Historico() {
-        this.chamados = new ArrayList<>();
+        this.chamados = new ArrayList<>(50);
     }
 
     public void registrarChamado(Chamado chamado) {
@@ -16,7 +16,8 @@ public class Historico {
     }
 
     public boolean atualizarStatusPorId(int id, Chamado.Status novoStatus) {
-        for (Chamado chamado : chamados) {
+        for (int i = 0; i < chamados.size(); i++) {
+            Chamado chamado = chamados.get(i);
             if (chamado.getId() == id) {
                 chamado.setStatus(novoStatus);
                 return true;

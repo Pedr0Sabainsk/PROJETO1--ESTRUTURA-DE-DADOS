@@ -23,6 +23,15 @@ public class CentralAtendimento {
             return;
         }
 
+        if (nivelUrgencia >= 4 && pilhaEmergencia.size() >= 30) {
+            System.out.println("A Pilha de Emergencia atingiu a sua capacidade maxima (30).");
+            return;
+        }
+        if (nivelUrgencia < 4 && filaComum.size() >= 30) {
+            System.out.println("A Fila Comum atingiu a sua capacidade maxima (30).");
+            return;
+        }
+
         char nivelUrgenciaChar = (char) ('0' + nivelUrgencia);
         Chamado chamado = new Chamado(
                 proximoId,
@@ -132,22 +141,50 @@ public class CentralAtendimento {
         }
     }
 
+//Opção 7
+    
+    public void mostrarEstatisticaNiveis() {
+        ArrayList<Chamado> chamados = historico.getChamados();
+        if (chamados.isEmpty()) {
+            System.out.println("Nenhum chamado cadastrado para gerar estatisticas.");
+            return;
+        }
+
+        int cont1 = 0, cont2 = 0, cont3 = 0, cont4 = 0, cont5 = 0;
+
+        for (int i = 0; i < chamados.size(); i++) {
+            char nivel = chamados.get(i).getNivelUrgencia();
+            if (nivel == '1') cont1++;
+            else if (nivel == '2') cont2++;
+            else if (nivel == '3') cont3++;
+            else if (nivel == '4') cont4++;
+            else if (nivel == '5') cont5++;
+        }
+
+        System.out.println("\nEstatistica dos Niveis de Emergencia ");
+        System.out.println("Nivel 1: " + cont1 + " chamado(s)");
+        System.out.println("Nivel 2: " + cont2 + " chamado(s)");
+        System.out.println("Nivel 3: " + cont3 + " chamado(s)");
+        System.out.println("Nivel 4: " + cont4 + " chamado(s)");
+        System.out.println("Nivel 5: " + cont5 + " chamado(s)");
+    }
+
 
 //Opção 10
     public void simularCadastro() {
-        System.out.println("Simulação de cadastro.");
-        cadastrarChamado("Tatuapé", "Comum", '2');
-        cadastrarChamado("Pinheiros", "Emergência", '5');
-        cadastrarChamado("Bela Vista", "Comum", '3');
-        cadastrarChamado("Tucuruvi", "Emergência", '4');
-        cadastrarChamado("Tucuruvi", "Comum", '1');
-        cadastrarChamado("Butantã", "Emergência", '5');
-        cadastrarChamado("Mooca", "Emergência", '5');
-        cadastrarChamado("Higienópolis", "Emergência", '4');
-        cadastrarChamado("Higienópolis", "Comum", '2');
-        cadastrarChamado("Higienópolis", "Emergência", '4');
+        System.out.println("Simulacao de cadastro.");
+        cadastrarChamado("Tatuape", "Comum", 2);
+        cadastrarChamado("Pinheiros", "Emergencia", 5);
+        cadastrarChamado("Bela Vista", "Comum", 3);
+        cadastrarChamado("Tucuruvi", "Emergencia", 4);
+        cadastrarChamado("Tucuruvi", "Comum", 1);
+        cadastrarChamado("Butanta", "Emergencia", 5);
+        cadastrarChamado("Mooca", "Emergencia", 5);
+        cadastrarChamado("Higienopolis", "Emergencia", 4);
+        cadastrarChamado("Higienopolis", "Comum", 2);
+        cadastrarChamado("Higienopolis", "Emergencia", 4);
 
-        System.out.println("Simulação concluída.");
+        System.out.println("Simulacao concluida. 10 chamados inseridos!");
     }
 
 }
