@@ -2,15 +2,15 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 
 public class CentralAtendimento {
-    private LinkedList<Chamado> filaComum;
-    private ArrayList<Chamado> pilhaEmergencia;
+    private FilaCircular<Chamado> filaComum;
+    private Pilha <Chamado> pilhaEmergencia;
     private ArrayList<Chamado> atendimentosAtivos;
     private Historico historico;
     private int proximoId;
 
     public CentralAtendimento() {
-        this.filaComum = new LinkedList<>();
-        this.pilhaEmergencia = new ArrayList<>();
+        this.filaComum = new FilaCircular<>(100);
+        this.pilhaEmergencia = new Pilha<>(100);
         this.atendimentosAtivos = new ArrayList<>();
         this.historico = new Historico();
         this.proximoId = 1;
