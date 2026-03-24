@@ -70,7 +70,7 @@ public class Main {
                     break;
                 case 4:
                     System.out.println("\nChamados Abertos ");
-                    central.ChamadosAbertos();
+                    central.chamadosAbertos();
                     break;
                 case 5:
                     System.out.println("\nChamados Ativos ");
@@ -91,7 +91,7 @@ public class Main {
                         if (nivelBusca < 1 || nivelBusca > 5) {
                             System.out.println("Nivel invalido.");
                         } else {
-                            central.mostrarChamadosPorNivel(nivelBusca);
+                            central.mostrarEstatisticaNiveis();
                         }
                     } catch (NumberFormatException e) {
                         System.out.println("Nivel invalido. Digite um numero.");

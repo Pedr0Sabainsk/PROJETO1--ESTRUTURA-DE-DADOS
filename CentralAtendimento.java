@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-import java.util.LinkedList;
 
 public class CentralAtendimento {
     private FilaCircular<Chamado> filaComum;
@@ -9,47 +8,45 @@ public class CentralAtendimento {
     private int proximoId;
 
     public CentralAtendimento() {
-        this.filaComum = new FilaCircular<>(100);
-        this.pilhaEmergencia = new Pilha<>(100);
+        this.filaComum = new FilaCircular<>(30);
+        this.pilhaEmergencia = new Pilha<>(30);
         this.atendimentosAtivos = new ArrayList<>();
         this.historico = new Historico();
         this.proximoId = 1;
     }
 
-//Opção 1
+    //Opção 1
     public void cadastrarChamado(String bairro, String descricao, int nivelUrgencia) {
         if (nivelUrgencia < 1 || nivelUrgencia > 5) {
-            System.out.println("Nivel de urgencia invalido. Informe um valor entre 1 e 5.");
+            System.out.println("Nvel de urgencia inválido. Informe um valor entre 1 e 5.");
             return;
         }
 
-        if (nivelUrgencia >= 4 && pilhaEmergencia.size() >= 30) {
-            System.out.println("A Pilha de Emergencia atingiu a sua capacidade maxima (30).");
+        if (nivelUrgencia >= 4 && pilhaEmergencia.isFull()) {
+            System.out.println("A Pilha de Emergência atingiu a sua capacidade maxima (30).");
             return;
         }
-        if (nivelUrgencia < 4 && filaComum.size() >= 30) {
+        if (nivelUrgencia < 4 && filaComum.qIsFull()) {
             System.out.println("A Fila Comum atingiu a sua capacidade maxima (30).");
             return;
         }
 
-        char nivelUrgenciaChar = (char) ('0' + nivelUrgencia);
-        Chamado chamado = new Chamado(
-                proximoId,
-                bairro,
-                descricao,
-                nivelUrgenciaChar,
-                Chamado.Status.ABERTO);
+        char nivelUrgenciaChar = Integer.toString(nivelUrgencia).charAt(0);
+        Chamado chamado = new Chamado(proximoId, bairro, descricao, nivelUrgenciaChar, Chamado.Status.ABERTO);
 
         historico.registrarChamado(chamado);
 
-        if (nivelUrgencia >= 4) {
-            pilhaEmergencia.add(chamado);
-        } else {
-            filaComum.add(chamado);
+        try {
+            if (nivelUrgencia >= 4) {
+                pilhaEmergencia.push(chamado);
+            } else {
+                filaComum.enqueue(chamado);
+            }
+            proximoId++;
+            System.out.println("Chamado cadastrado com sucesso.");
+        } catch (Exception e) {
+            System.out.println("Erro: " + e.getMessage());
         }
-
-        proximoId++;
-        System.out.println("Chamado cadastrado com sucesso.");
     }
 
 
@@ -57,22 +54,27 @@ public class CentralAtendimento {
     public void realizarAtendimento() {
         Chamado chamado;
 
-        if (!pilhaEmergencia.isEmpty()) {
-            chamado = pilhaEmergencia.remove(pilhaEmergencia.size() - 1);
-        } else if (!filaComum.isEmpty()) {
-            chamado = filaComum.removeFirst();
-        } else {
-            System.out.println("Nao ha chamados para atendimento.");
+        try {
+            if (!pilhaEmergencia.isEmpty()) {
+                chamado = pilhaEmergencia.pop();
+            } else if (!filaComum.qIsEmpty()) {
+                chamado = filaComum.dequeue();
+            } else {
+                System.out.println("Nao há chamados para atendimento.");
+                return;
+            }
+        } catch (Exception e) {
+            System.out.println("Erro: " + e.getMessage());
             return;
         }
 
         atendimentosAtivos.add(chamado);
         historico.atualizarStatusPorId(chamado.getId(), Chamado.Status.EM_ATENDIMENTO);
-        System.out.println("Atendimento iniciado para o chamado ID " + chamado.getId() + ".");
+        System.out.println("Atendimento iniciado para o chamado " + chamado.getId() + ".");
     }
 
 
-//Opção 3
+    //Opção 3
     public void concluirAtendimento(int indiceEscolhido) {
         if (atendimentosAtivos.isEmpty()) {
             System.out.println("Lista de atendimentos ativa vazia.");
@@ -91,29 +93,25 @@ public class CentralAtendimento {
 
     //Opção 4
     public void chamadosAbertos() {
-    if (filaComum.isEmpty() && pilhaEmergencia.isEmpty()) {
-        System.out.println("Não temos chamados abertos.");
-        return;
-    }
+        if (filaComum.qIsEmpty() && pilhaEmergencia.isEmpty()) {
+            System.out.println("Não temos chamados abertos.");
+            return;
+        }
 
-    System.out.println("Chamados de Emergencia Abertos");
-    if (pilhaEmergencia.isEmpty()) {
-        System.out.println("Nenhum chamado de emergencia pendente.");
-    } else {
-        for (int i = 0; i < pilhaEmergencia.size(); i++) {
-            System.out.println("Emergencia " + i + ": " + pilhaEmergencia.get(i));
+        System.out.println("Chamados de Emergência Abertos");
+        if (pilhaEmergencia.isEmpty()) {
+            System.out.println("Nenhum chamado de emergência pendente.");
+        } else {
+            System.out.println(pilhaEmergencia.toString());
+        }
+
+        System.out.println("\nChamados Comuns Abertos:");
+        if (filaComum.qIsEmpty()) {
+            System.out.println("Nenhum chamado comum pendente.");
+        } else {
+            System.out.println(filaComum.toString());
         }
     }
-
-    System.out.println("\nChamados Comuns Abertos");
-    if (filaComum.isEmpty()) {
-        System.out.println("Nenhum chamado comum pendente.");
-    } else {
-        for (int i = 0; i < filaComum.size(); i++) {
-            System.out.println("Comum " + i + ": " + filaComum.get(i));
-        }
-    }
-}
 
 
 //Opção 5

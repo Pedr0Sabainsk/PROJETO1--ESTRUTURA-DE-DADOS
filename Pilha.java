@@ -1,9 +1,8 @@
-package _AGenerics_PilhaSequencial;
-
 public class Pilha <T> {
 	private static final int TAM_DEFAULT = 100;
 	private	int topoPilha;
     private	T e[ ];
+	@SuppressWarnings("unchecked")
    	public	Pilha(int tamanho) {  // construtor 1
    		this.e = (T[]) new Object[tamanho];
    		this.topoPilha = -1;

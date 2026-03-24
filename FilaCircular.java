@@ -1,11 +1,10 @@
-package _AFilaCircularGenerica;
-
 public class FilaCircular <T>{
 	// Constante e Atributos Privados
 	private static final int TAM_DEFAULT = 100;
 	private int inicio, fim, qtde;
 	private T e[ ];
 	// Métodos públicos
+	@SuppressWarnings("unchecked")
 	public FilaCircular(int tamanho) {// construtor 1 (com tamanho)
 		  this.inicio = this.fim = this.qtde = 0;
 		  e = (T[]) new Object[tamanho];
