@@ -15,18 +15,29 @@ public class FilaCircular <T>{
 	}
 
 	// verifica se a fila está vazia
-	public boolean qIsEmpty() {
+	public boolean isEmpty() {
 		return (qtde == 0);
+	}
+
+	// Mantido por compatibilidade com código legado.
+	public boolean qIsEmpty() {
+		return isEmpty();
 	}
 	
 	// Verifica se a fila está cheia
+	public boolean isFull() {
+		return (qtde == e.length);	
+	}
+
+	// Mantido por compatibilidade com código legado.
     public boolean qIsFull() {
-    	return (qtde == e.length); 	
+	    return isFull(); 	
     }
     
     // insere um elemento no final da fila
+	// enqueue é usado para manter os chamados comuns na ordem de chegada (FIFO).
 	public void enqueue(T e) throws Exception {
-		if (! qIsFull( )){
+		if (! isFull( )){
 			    this.e[this.fim++] = e;
 			    this.fim = this.fim % this.e.length;
 			    this.qtde++;
@@ -35,9 +46,10 @@ public class FilaCircular <T>{
 			throw new Exception("Oveflow - Estouro de Fila");	
 	}
 	// remove um elemento do final da fila
+	// dequeue é usado para atender sempre o chamado comum mais antigo (FIFO).
     public T dequeue() throws Exception {
     	  T aux;
-    	  if (! qIsEmpty( )){
+	  	  if (! isEmpty( )){
     	   aux =  this.e[ this.inicio];
     	   this.inicio = ++this.inicio % this.e.length;
     	   this.qtde--;
@@ -48,16 +60,18 @@ public class FilaCircular <T>{
     }
     // retorna quem está no início da fila
     // caso a fila não esteja vazia
+	// front consulta quem sera atendido em seguida sem remover o elemento.
 	public T front() throws Exception {
-		if (! qIsEmpty())
+		if (! isEmpty())
 			return e[inicio];
 		else{
 			throw new Exception("underflow - Esvaziamento de Fila");
 		}			
 	}
 	// retorna quem está no final da fila caso ela não esteja vazia
+	// rear ajuda a verificar o ultimo chamado inserido sem alterar a fila.
 	public T rear() throws Exception {
-		if (! qIsEmpty()){
+		if (! isEmpty()){
 			  int pfinal;
 			  if (this.fim != 0) pfinal = this.fim - 1;
 			  else pfinal = this.e.length - 1;
@@ -67,8 +81,13 @@ public class FilaCircular <T>{
 		}			
 	}
 	// Retorna o total de elementos da fila
-	public	int totalElementos(){
+	public	int size(){
 		return qtde;
+	}
+
+	// Mantido por compatibilidade com código legado.
+	public	int totalElementos(){
+		return size();
 	}
 	
 	// Sobrescrita/sobreposição (override) do método toString(), que veio da superclasse Object.

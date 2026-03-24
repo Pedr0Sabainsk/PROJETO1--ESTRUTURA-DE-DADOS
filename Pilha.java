@@ -22,6 +22,7 @@ public class Pilha <T> {
    	}
    	// insere um elemento e 
    	// no topo da pilha
+	// push é usado para registrar urgencias no topo e priorizar o ultimo caso critico (LIFO).
    	public void push(T e) throws Exception{
    		if (! this.isFull( ))
    			this.e[++this.topoPilha] = e;
@@ -30,6 +31,7 @@ public class Pilha <T> {
    	}
    	//remove um elemento 
    	//do topo da pilha
+	// pop é usado para atender primeiro o chamado mais recente entre as emergencias (LIFO).
    	public T pop() throws Exception{
    		if (! this.isEmpty( ))
    			return this.e[this.topoPilha--];
@@ -39,13 +41,19 @@ public class Pilha <T> {
    	}
    	//Retorna o elemento que está
    	//no topo da pilha
-   	public T topo() throws Exception{
+	// top permite consultar a proxima emergencia sem remover da estrutura.
+	public T top() throws Exception{
 	  if ( ! this.isEmpty( ))
 			return this.e[this.topoPilha];
 		else{
 			throw new Exception("Underlow - Esvaziamento de Pilha");
 		}
    	}
+
+	// Mantido por compatibilidade com código legado.
+	public T topo() throws Exception{
+		return top();
+	}
    	// obtém o total de elementos 
    	//armazenados na Pilha
    	public int sizeElements() {

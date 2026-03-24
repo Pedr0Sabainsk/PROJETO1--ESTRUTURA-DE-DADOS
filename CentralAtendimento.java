@@ -16,6 +16,8 @@ public class CentralAtendimento {
     }
 
     //Opção 1
+    // Usa push para emergencias porque a pilha prioriza o ultimo caso critico recebido (LIFO).
+    // Usa enqueue para comuns porque a fila mantém ordem de chegada (FIFO).
     public void cadastrarChamado(String bairro, String descricao, int nivelUrgencia) {
         if (nivelUrgencia < 1 || nivelUrgencia > 5) {
             System.out.println("Nvel de urgencia inválido. Informe um valor entre 1 e 5.");
@@ -26,7 +28,7 @@ public class CentralAtendimento {
             System.out.println("A Pilha de Emergência atingiu a sua capacidade maxima (30).");
             return;
         }
-        if (nivelUrgencia < 4 && filaComum.qIsFull()) {
+        if (nivelUrgencia < 4 && filaComum.isFull()) {
             System.out.println("A Fila Comum atingiu a sua capacidade maxima (30).");
             return;
         }
@@ -44,6 +46,15 @@ public class CentralAtendimento {
             }
             proximoId++;
             System.out.println("Chamado cadastrado com sucesso.");
+
+            Chamado proximaEmergencia = proximoEmergenciaSemRemover();
+            Chamado proximoComum = proximoComumSemRemover();
+            if (proximaEmergencia != null) {
+                System.out.println("Proxima emergencia (top): ID " + proximaEmergencia.getId());
+            }
+            if (proximoComum != null) {
+                System.out.println("Proximo comum (front): ID " + proximoComum.getId());
+            }
         } catch (Exception e) {
             System.out.println("Erro: " + e.getMessage());
         }
@@ -51,13 +62,20 @@ public class CentralAtendimento {
 
 
     //Opção 2
+    // Usa pop para retirar primeiro o topo da pilha de emergencias (LIFO).
+    // Se nao houver emergencia, usa dequeue para atender os comuns por ordem de chegada (FIFO).
     public void realizarAtendimento() {
         Chamado chamado;
 
         try {
-            if (!pilhaEmergencia.isEmpty()) {
+            Chamado proximaEmergencia = proximoEmergenciaSemRemover();
+            Chamado proximoComum = proximoComumSemRemover();
+
+            if (proximaEmergencia != null) {
+                System.out.println("Atendendo emergencia prioritaria (top): ID " + proximaEmergencia.getId());
                 chamado = pilhaEmergencia.pop();
-            } else if (!filaComum.qIsEmpty()) {
+            } else if (proximoComum != null) {
+                System.out.println("Atendendo chamado comum (front): ID " + proximoComum.getId());
                 chamado = filaComum.dequeue();
             } else {
                 System.out.println("Nao há chamados para atendimento.");
@@ -92,8 +110,9 @@ public class CentralAtendimento {
     }
 
     //Opção 4
+    // Consulta o estado das estruturas para listar os chamados que ainda aguardam atendimento.
     public void chamadosAbertos() {
-        if (filaComum.qIsEmpty() && pilhaEmergencia.isEmpty()) {
+        if (filaComum.isEmpty() && pilhaEmergencia.isEmpty()) {
             System.out.println("Não temos chamados abertos.");
             return;
         }
@@ -102,15 +121,43 @@ public class CentralAtendimento {
         if (pilhaEmergencia.isEmpty()) {
             System.out.println("Nenhum chamado de emergência pendente.");
         } else {
+            try {
+                Chamado topoEmergencia = pilhaEmergencia.top();
+                System.out.println("Proxima emergencia (top): ID " + topoEmergencia.getId());
+            } catch (Exception e) {
+                System.out.println("Erro ao consultar top da pilha: " + e.getMessage());
+            }
             System.out.println(pilhaEmergencia.toString());
         }
 
         System.out.println("\nChamados Comuns Abertos:");
-        if (filaComum.qIsEmpty()) {
+        if (filaComum.isEmpty()) {
             System.out.println("Nenhum chamado comum pendente.");
         } else {
+            try {
+                Chamado inicioFila = filaComum.front();
+                System.out.println("Proximo comum (front): ID " + inicioFila.getId());
+            } catch (Exception e) {
+                System.out.println("Erro ao consultar front da fila: " + e.getMessage());
+            }
             System.out.println(filaComum.toString());
         }
+    }
+
+    // Usa top para consultar a proxima emergencia sem remover da pilha.
+    private Chamado proximoEmergenciaSemRemover() throws Exception {
+        if (pilhaEmergencia.isEmpty()) {
+            return null;
+        }
+        return pilhaEmergencia.top();
+    }
+
+    // Usa front para consultar o proximo comum sem remover da fila.
+    private Chamado proximoComumSemRemover() throws Exception {
+        if (filaComum.isEmpty()) {
+            return null;
+        }
+        return filaComum.front();
     }
 
 
