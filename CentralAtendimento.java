@@ -215,7 +215,24 @@ public class CentralAtendimento {
     }
 
     //Opção 8
-    
+    public void mostrarChamadosPorNivel(int nivelBusca) {
+        ArrayList<Chamado> chamados = historico.getChamados();
+        int contador = 0;
+
+        char nivelBuscaChar = Integer.toString(nivelBusca).charAt(0);
+
+        System.out.println("Chamados com nível de emergência " + nivelBusca + ":");
+        for (int i = 0; i < chamados.size(); i++) {
+            Chamado c = chamados.get(i);
+            
+            // Agora você compara char com char!
+            if (c.getNivelUrgencia() == nivelBuscaChar) {
+                System.out.println(c);
+                contador++;
+            }
+        }
+        System.out.println("Total cadastrado para o nível " + nivelBusca + ": " + contador); 
+    }
 
     //Opção 9
     public void rankearBairros(){

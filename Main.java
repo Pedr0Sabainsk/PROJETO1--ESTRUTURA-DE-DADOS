@@ -91,7 +91,7 @@ public class Main {
                         if (nivelBusca < 1 || nivelBusca > 5) {
                             System.out.println("Nivel invalido.");
                         } else {
-                            central.mostrarEstatisticaNiveis();
+                            central.mostrarChamadosPorNivel(nivelBusca);
                         }
                     } catch (NumberFormatException e) {
                         System.out.println("Nivel invalido. Digite um numero.");
@@ -104,7 +104,13 @@ public class Main {
                     central.simularCadastro();
                     break;
                 case 11:
-                    System.out.println("Fechando sistema.");
+                    System.out.println("Você deseja mesmo sair? ");
+                    String respostaFinal = scanner.nextLine();
+                    if(respostaFinal.toLowerCase().equals("sim")){
+                        System.out.println("Fechando sistema.");
+                    } else {
+                        opcao = 0;
+                    }
                     break;
                 default:
                     System.out.println("Digite uma opcao valida.");
