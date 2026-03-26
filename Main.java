@@ -98,6 +98,8 @@ public class Main {
                     }
                     break;
                 case 9:
+                    central.rankearBairros();
+                    break;
                 case 10:
                     central.simularCadastro();
                     break;

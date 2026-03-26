@@ -122,7 +122,7 @@ public class CentralAtendimento {
             System.out.println("Nenhum chamado de emergência pendente.");
         } else {
             try {
-                Chamado topoEmergencia = pilhaEmergencia.top();
+                Chamado topoEmergencia = pilhaEmergencia.topo();
                 System.out.println("Proxima emergencia (top): ID " + topoEmergencia.getId());
             } catch (Exception e) {
                 System.out.println("Erro ao consultar top da pilha: " + e.getMessage());
@@ -149,7 +149,7 @@ public class CentralAtendimento {
         if (pilhaEmergencia.isEmpty()) {
             return null;
         }
-        return pilhaEmergencia.top();
+        return pilhaEmergencia.topo();
     }
 
     // Usa front para consultar o proximo comum sem remover da fila.
@@ -214,6 +214,50 @@ public class CentralAtendimento {
         System.out.println("Nivel 5: " + cont5 + " chamado(s)");
     }
 
+    //Opção 8
+    
+
+    //Opção 9
+    public void rankearBairros(){
+        ArrayList<Chamado> lista = historico.getChamados();
+        ArrayList<String> rankNomes = new ArrayList<>();
+        ArrayList<Integer> rankNum = new ArrayList<>();
+
+        for (int i = 0; i < lista.size(); i++) {
+            String bairroAtual = lista.get(i).getBairro(); //nao lembrava: get pega o valor da posição
+            int indice = rankNomes.indexOf(bairroAtual);
+
+            if (indice != -1) {
+                int qtdAtual = rankNum.get(indice);
+                rankNum.set(indice, qtdAtual + 1);
+            } else {
+                rankNomes.add(bairroAtual);
+                rankNum.add(1);
+            }
+        }
+
+        for (int i = 0; i < rankNum.size() - 1; i++) {
+            int indiceMaior = i;
+            
+            for (int j = i + 1; j < rankNum.size(); j++) {
+                if (rankNum.get(j) > rankNum.get(indiceMaior)) {
+                    indiceMaior = j;
+                }
+            }
+
+            int tempNum = rankNum.get(indiceMaior);
+            rankNum.set(indiceMaior, rankNum.get(i)); //nao lembrava: set pega a posição primeiro e o valor dps
+            rankNum.set(i, tempNum);
+
+            String tempNome = rankNomes.get(indiceMaior);
+            rankNomes.set(indiceMaior, rankNomes.get(i));
+            rankNomes.set(i, tempNome);
+        }
+
+        for (int i = 0; i < rankNomes.size(); i++) {
+        System.out.println((i + 1) + "º lugar - " + rankNomes.get(i) + ": " + rankNum.get(i) + " chamados");
+}
+    }
 
 //Opção 10
     public void simularCadastro() {
